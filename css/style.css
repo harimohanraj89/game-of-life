@@ -1,0 +1,14 @@
+body {
+  text-align: center;
+  font-family: 'Courier New';
+}
+
+h1 {
+  font-weight: 400;
+}
+
+canvas {
+  width: 800px;
+  height: 800px;
+  border: 1px solid gray;
+}
