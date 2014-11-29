@@ -39,17 +39,17 @@ describe("Cell", function() {
 
   describe("#livingNeighbors", function() {
     it("should return the number of living neighbors around a cell", function() {
-      neighors = [new Cell(), new Cell(), new Cell()];
+      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
       neighbors[2].spawn();
       neighbors[3].spawn();
-      cell.setNeighbors([neighbor1, neighbor2, neighbor3]);
+      cell.setNeighbors(neighbors);
       expect(cell.livingNeighbors()).toBe(2);
     });
   });
 
   describe("#shouldLive", function() {
     it("should return true for 2 neighbors", function() {
-      neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
       neighbors[0].spawn();
       neighbors[2].spawn();
       cell.setNeighbors(neighbors);
@@ -57,7 +57,7 @@ describe("Cell", function() {
     });
 
     it("should return true for 3 neighbors", function() {
-      neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
       neighbors[1].spawn();
       neighbors[3].spawn();
       neighbors[5].spawn();
@@ -66,14 +66,14 @@ describe("Cell", function() {
     });
 
     it("should return false for less than 2 neighbors", function() {
-      neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
       neighbors[4].spawn();
       cell.setNeighbors(neighbors);
       expect(cell.shouldLive()).toBe(false);
     });
 
     it("should return false for more than 3 neighbors", function() {
-      neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
       neighbors[1].spawn();
       neighbors[2].spawn();
       neighbors[3].spawn();

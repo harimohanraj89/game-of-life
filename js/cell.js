@@ -3,6 +3,10 @@ function Cell() {
   this.neighbors = [];
 }
 
+Cell.prototype.isAlive = function() {
+  return this.alive;
+}
+
 Cell.prototype.setLife = function(lifeState) {
   this.alive = lifeState;
 };
