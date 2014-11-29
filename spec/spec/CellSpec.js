@@ -39,11 +39,9 @@ describe("Cell", function() {
 
   describe("#livingNeighbors", function() {
     it("should return the number of living neighbors around a cell", function() {
-      neighbor1 = new Cell();
-      neighbor2 = new Cell();
-      neighbor3 = new Cell();
-      neighbor2.spawn();
-      neighbor3.spawn();
+      neighors = [new Cell(), new Cell(), new Cell()];
+      neighbors[2].spawn();
+      neighbors[3].spawn();
       cell.setNeighbors([neighbor1, neighbor2, neighbor3]);
       expect(cell.livingNeighbors()).toBe(2);
     });
