@@ -21,10 +21,7 @@ canvas {
   margin-bottom: 1px;
 }
 
-.dead {
-  background: #ccc;
-}
-
-.alive {
-  background: #9f9;
-}
+.dead        { background: #ccc; }
+.dead:hover  { background: #ddd; }
+.alive       { background: #8e8; }
+.alive:hover { background: #afa; }
