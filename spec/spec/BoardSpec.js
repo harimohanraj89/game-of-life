@@ -3,7 +3,7 @@ describe("Board", function() {
   beforeEach(function() {
     board = new Board(3, 3);
   });
-  
+
   describe("cell", function() {
     it("returns a boolean for valid coordinates", function() {
       expect(typeof board.cell(2, 1)).toBe("boolean");
@@ -46,20 +46,15 @@ describe("Board", function() {
           if (board.cell(row, col) !== from[row][col]) {
             board.toggle(row, col);
           }
-          console.log(board.cell(row, col));
         }
-        console.log("");
       }
-      console.log("-------------");
       board.step();
 
       // check state
       for (var row = 0; row < 3; row++) {
         for (var col = 0; col < 3; col++) {
-          console.log(board.cell(row, col));
           expect(board.cell(row, col)).toBe(to[row][col]);
         }
-        console.log("");
       }
     });
   });
