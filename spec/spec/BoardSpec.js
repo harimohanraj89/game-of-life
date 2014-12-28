@@ -3,47 +3,64 @@ describe("Board", function() {
   beforeEach(function() {
     board = new Board(3, 3);
   });
-
-  describe("#setNeighbors", function() {
-    it ("includes the right neighbors", function() {
-      board.setNeighbors();
-      var subject = board.cell(0, 0);
-      var neighbors = [board.cell(1, 0), board.cell(1, 1), board.cell(0, 1)];
-      for (var i = 0; i < neighbors.length; i++) {
-        expect(subject.neighbors.indexOf(neighbors[i]) > -1).toBe(true);
-      }
+  
+  describe("cell", function() {
+    it("returns a boolean for valid coordinates", function() {
+      expect(typeof board.cell(2, 1)).toBe("boolean");
     });
 
-    it ("excludes the right neighbors", function() {
-      board.setNeighbors();
-      var subject = board.cell(0, 0);
-      var notNeighbors = [board.cell(2, 0), board.cell(1, 2), board.cell(2, 2)];
-      for (var i = 0; i < notNeighbors.length; i++) {
-        expect(subject.neighbors.indexOf(notNeighbors[i]) == -1).toBe(true);
-      }
+    it("returns null for out-of-bounds coordinates", function() {
+      expect(board.cell(4, 5)).toBe(null);
     });
 
-    it("excludes itself", function() {
-      board.setNeighbors();
-      var subject = board.cell(0, 0);
-      expect(subject.neighbors.indexOf(subject) == -1).toBe(true);
+    it("returns null for negative coordinates", function() {
+      expect(board.cell(-3, 1)).toBe(null);
+    });
+
+  });
+
+  describe("toggle", function() {
+    it("returns toggles the living state of a cell", function() {
+      board.toggle(2, 1);
+      expect(board.cell(2,1)).toBe(true);
     });
   });
 
-  describe("#step", function() {
-    it ("spawns the right cells", function() {
-      board.cell(1, 0).spawn();
-      board.cell(1, 1).spawn();
-      board.cell(0, 1).spawn();
-      board.step();
-      expect(board.cell(0, 0).isAlive()).toBe(true);
-    });
+  describe("step", function() {
+    it("performs one step of game of life", function() {
+      var from = [
+        [false, true,  false],
+        [false, false, true ],
+        [true,  false, false]
+      ]
 
-    it ("kills the right cells", function() {
-      board.cell(0, 0).spawn();
-      board.cell(1, 0).spawn();
+      var to = [
+        [false, false, true ],
+        [true,  true,  false],
+        [false, true,  false]
+      ]
+
+      // set up board
+      for (var row = 0; row < 3; row++) {
+        for (var col = 0; col < 3; col++) {
+          if (board.cell(row, col) !== from[row][col]) {
+            board.toggle(row, col);
+          }
+          console.log(board.cell(row, col));
+        }
+        console.log("");
+      }
+      console.log("-------------");
       board.step();
-      expect(board.cell(0, 0).isAlive()).toBe(false);
+
+      // check state
+      for (var row = 0; row < 3; row++) {
+        for (var col = 0; col < 3; col++) {
+          console.log(board.cell(row, col));
+          expect(board.cell(row, col)).toBe(to[row][col]);
+        }
+        console.log("");
+      }
     });
   });
 

@@ -29,19 +29,27 @@ describe("Cell", function() {
     });
   });
 
-  describe("#set", function() {
-    it("should be able to set the cell to live", function() {
+  describe("#kill", function() {
+    it("should be able to set the cell to die", function() {
       cell.setLife(true);
       cell.kill();
       expect(cell.alive).toBe(false);
     });
   });
 
+  describe("#toggle", function() {
+    it("should toggle the living state of the cell", function() {
+      var livingState = cell.alive;
+      cell.toggle();
+      expect(cell.alive).toBe(!livingState);
+    })
+  });
+
   describe("#livingNeighbors", function() {
     it("should return the number of living neighbors around a cell", function() {
-      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+      var neighbors = [new Cell(), new Cell(), new Cell()];
+      neighbors[1].spawn();
       neighbors[2].spawn();
-      neighbors[3].spawn();
       cell.setNeighbors(neighbors);
       expect(cell.livingNeighbors()).toBe(2);
     });
