@@ -35,5 +35,9 @@ Cell.prototype.livingNeighbors = function() {
 };
 
 Cell.prototype.shouldLive = function() {
-  return (this.livingNeighbors() === 2 || this.livingNeighbors() === 3);
+  if (this.isAlive()) {
+    return (this.livingNeighbors() === 2 || this.livingNeighbors() === 3);
+  } else {
+    return (this.livingNeighbors() === 3);
+  }
 };

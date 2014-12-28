@@ -30,13 +30,13 @@ describe("Board", function() {
     it("performs one step of game of life", function() {
       var from = [
         [false, true,  false],
-        [false, false, true ],
+        [true,  false, true ],
         [true,  false, false]
       ]
 
       var to = [
-        [false, false, true ],
-        [true,  true,  false],
+        [false, true,  false ],
+        [true,  false, false],
         [false, true,  false]
       ]
 

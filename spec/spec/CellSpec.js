@@ -56,39 +56,80 @@ describe("Cell", function() {
   });
 
   describe("#shouldLive", function() {
-    it("should return true for 2 neighbors", function() {
-      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
-      neighbors[0].spawn();
-      neighbors[2].spawn();
-      cell.setNeighbors(neighbors);
-      expect(cell.shouldLive()).toBe(true);
+    describe("when the cell is dead", function() {
+
+      beforeEach(function() {
+        cell.kill();
+      });
+
+      it("should return true for 3 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[1].spawn();
+        neighbors[3].spawn();
+        neighbors[5].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(true);
+      });
+
+      it("should return false for less than 3 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[4].spawn();
+        neighbors[3].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(false);
+      });
+
+      it("should return false for more than 3 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[1].spawn();
+        neighbors[2].spawn();
+        neighbors[3].spawn();
+        neighbors[4].spawn();
+        neighbors[5].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(false);
+      });
     });
 
-    it("should return true for 3 neighbors", function() {
-      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
-      neighbors[1].spawn();
-      neighbors[3].spawn();
-      neighbors[5].spawn();
-      cell.setNeighbors(neighbors);
-      expect(cell.shouldLive()).toBe(true);
-    });
+    describe("when the cell is alive", function() {
+      beforeEach(function() {
+        cell.spawn();
+      });
 
-    it("should return false for less than 2 neighbors", function() {
-      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
-      neighbors[4].spawn();
-      cell.setNeighbors(neighbors);
-      expect(cell.shouldLive()).toBe(false);
-    });
+      it("should return true for 2 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[0].spawn();
+        neighbors[2].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(true);
+      });
 
-    it("should return false for more than 3 neighbors", function() {
-      var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
-      neighbors[1].spawn();
-      neighbors[2].spawn();
-      neighbors[3].spawn();
-      neighbors[4].spawn();
-      neighbors[5].spawn();
-      cell.setNeighbors(neighbors);
-      expect(cell.shouldLive()).toBe(false);
+      it("should return true for 3 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[1].spawn();
+        neighbors[3].spawn();
+        neighbors[5].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(true);
+      });
+
+      it("should return false for less than 2 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[4].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(false);
+      });
+
+      it("should return false for more than 3 neighbors", function() {
+        var neighbors = [new Cell(), new Cell(), new Cell(), new Cell(), new Cell(), new Cell()];
+        neighbors[1].spawn();
+        neighbors[2].spawn();
+        neighbors[3].spawn();
+        neighbors[4].spawn();
+        neighbors[5].spawn();
+        cell.setNeighbors(neighbors);
+        expect(cell.shouldLive()).toBe(false);
+      });
     });
   });
 });
