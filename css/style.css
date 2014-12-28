@@ -12,3 +12,19 @@ canvas {
   height: 600px;
   border: 1px solid gray;
 }
+
+.cell {
+  display: inline-block;
+  height: 10px;
+  width: 10px;
+  margin-right: 1px;
+  margin-bottom: 1px;
+}
+
+.dead {
+  background: #ccc;
+}
+
+.alive {
+  background: #9f9;
+}
