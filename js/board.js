@@ -1,16 +1,13 @@
 function Board(rows, cols) {
   this.rows = rows;
   this.cols = cols;
-  this.generateCells();
-  this.setNeighbors();
+  this.initialize();
 }
 
-Board.prototype.cell = function(row, col) {
-  if (this.validCell(row, col)) {
-    return this.cells[row][col].alive;
-  }
-  return null;
-}
+Board.prototype.initialize = function() {
+  this.generateCells();
+  this.setNeighbors();
+};
 
 Board.prototype.generateCells = function() {
   this.cells = [];
@@ -29,21 +26,21 @@ Board.prototype.generateCells = function() {
 };
 
 Board.prototype.setNeighbors = function() {
-  for(var row = 0; row < this.rows; row++) {
-    for (var col = 0; col < this.cols; col++) {
-      var neighbors = [];
-
-      for (var nRow = Math.max(row-1, 0); nRow <= Math.min(row+1, this.rows-1); nRow++) {
-        for (var nCol = Math.max(col-1, 0); nCol <= Math.min(col+1, this.cols-1); nCol++) {
-          if (nRow !== row || nCol !== col) {
-            neighbors.push(this.cells[nRow][nCol]);
-          }
+  this.eachCell(function(cell, row, col) {
+    var neighbors = [];
+    for (var nRow = Math.max(row-1, 0); nRow <= Math.min(row+1, this.rows-1); nRow++) {
+      for (var nCol = Math.max(col-1, 0); nCol <= Math.min(col+1, this.cols-1); nCol++) {
+        if (nRow !== row || nCol !== col) {
+          neighbors.push(this.cells[nRow][nCol]);
         }
       }
-
-      this.cells[row][col].setNeighbors(neighbors);
     }
-  }
+    cell.setNeighbors(neighbors);
+  });
+};
+
+Board.prototype.cell = function(row, col) {
+  return this.validCell(row, col) ? this.cells[row][col].isAlive() : null;
 };
 
 Board.prototype.toggle = function(row, col) {
@@ -54,21 +51,40 @@ Board.prototype.toggle = function(row, col) {
 
 Board.prototype.validCell = function(row, col) {
   return (row >= 0 && row < this.rows) && (col >= 0 && col < this.cols)
-}
+};
 
 Board.prototype.step = function() {
-  var nextState = [];
-  for(var row = 0; row < this.rows; row++) {
-    var rowOfStates = [];
-    for (var col = 0; col < this.cols; col++) {
-      rowOfStates.push(this.cells[row][col].shouldLive());
-    }
-    nextState.push(rowOfStates);
-  }
+  var nextState = this.mapCells(function(cell) {
+    return cell.shouldLive();
+  });
 
-  for (var row = 0; row < 3; row++) {
-    for (var col = 0; col < 3; col++) {
-      board.cells[row][col].setLife(nextState[row][col]);
+  this.eachCell(function(cell, row, col) {
+    cell.setLife(nextState[row][col]);
+  });
+};
+
+Board.prototype.eachCell = function(callback) {
+  if (typeof callback === "function") {
+    for (var row = 0; row < this.rows; row++) {
+      for (var col = 0; col < this.cols; col++) {
+        callback.call(this, this.cells[row][col], row, col);
+      }
     }
+  }
+};
+
+Board.prototype.mapCells = function(callback) {
+  if (typeof callback === "function") {
+    var mapped = [];
+    for (var row = 0; row < this.rows; row++) {
+      mapped.push([]);
+    }
+
+    for (var row = 0; row < this.rows; row++) {
+      for (var col = 0; col < this.cols; col++) {
+        mapped[row][col] = callback.call(this, this.cells[row][col], row, col);
+      }
+    }
+    return mapped;
   }
 }
