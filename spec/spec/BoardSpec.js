@@ -4,7 +4,7 @@ describe("Board", function() {
     board = new Board(3, 3);
   });
 
-  describe("cell", function() {
+  describe("#cell", function() {
     it("returns a boolean for valid coordinates", function() {
       expect(typeof board.cell(2, 1)).toBe("boolean");
     });
@@ -19,14 +19,14 @@ describe("Board", function() {
 
   });
 
-  describe("toggle", function() {
+  describe("#toggle", function() {
     it("returns toggles the living state of a cell", function() {
       board.toggle(2, 1);
       expect(board.cell(2,1)).toBe(true);
     });
   });
 
-  describe("step", function() {
+  describe("#step", function() {
     it("performs one step of game of life", function() {
       var from = [
         [false, true,  false],
@@ -54,6 +54,35 @@ describe("Board", function() {
       for (var row = 0; row < 3; row++) {
         for (var col = 0; col < 3; col++) {
           expect(board.cell(row, col)).toBe(to[row][col]);
+        }
+      }
+    });
+  });
+
+  describe("#reset", function() {
+    it("resets the board", function() {
+      var from = [
+        [false, true,  false],
+        [true,  false, true ],
+        [true,  false, false]
+      ]
+
+
+      // set up board
+      for (var row = 0; row < 3; row++) {
+        for (var col = 0; col < 3; col++) {
+          if (board.cell(row, col) !== from[row][col]) {
+            board.toggle(row, col);
+          }
+        }
+      }
+
+      board.reset();
+
+      // check state
+      for (var row = 0; row < 3; row++) {
+        for (var col = 0; col < 3; col++) {
+          expect(board.cell(row, col)).toBe(false);
         }
       }
     });

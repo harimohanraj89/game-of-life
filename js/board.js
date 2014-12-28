@@ -87,4 +87,10 @@ Board.prototype.mapCells = function(callback) {
     }
     return mapped;
   }
+};
+
+Board.prototype.reset = function() {
+  this.eachCell(function(cell) {
+    cell.kill();
+  });
 }

@@ -14,6 +14,12 @@ function DomInterface(options) {
     this.stepper = options.stepper;
   }
 
+  if (typeof options.resetter === 'string') {
+    this.resetter = document.getElementById(options.resetter);
+  } else {
+    this.resetter = options.resetter;
+  }
+
   this.initialize();
 }
 
@@ -58,10 +64,17 @@ DomInterface.prototype.listen = function() {
       }
     });
   }
-  
+
   if (this.stepper) {
     this.stepper.addEventListener('click', function(e) {
       self.board.step();
+      self.render();
+    });
+  }
+
+  if (this.resetter) {
+    this.resetter.addEventListener('click', function(e) {
+      self.board.reset();
       self.render();
     });
   }
@@ -80,4 +93,4 @@ DomInterface.prototype.render = function() {
       }
     }
   }
-}
+};
